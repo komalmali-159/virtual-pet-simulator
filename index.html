@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Virtual Pet Simulator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="app">
+<header>
+<h1>Virtual Pet Simulator</h1>
+<p class="subtitle">Feed, Play, and Sleep — keep your pet happy!</p>
+</header>
+
+
+<section class="pet-area">
+<div id="pet" class="pet idle" aria-live="polite">
+<div class="pet-face">🐶</div>
+</div>
+
+
+<div class="status">
+<div class="status-row">
+<label>Hunger</label>
+<div class="bar"><div id="hungerBar" class="fill"></div></div>
+<span id="hungerVal" class="val">0</span>
+</div>
+<div class="status-row">
+<label>Happiness</label>
+<div class="bar"><div id="happyBar" class="fill"></div></div>
+<span id="happyVal" class="val">0</span>
+</div>
+<div class="status-row">
+<label>Energy</label>
+<div class="bar"><div id="energyBar" class="fill"></div></div>
+<span id="energyVal" class="val">0</span>
+</div>
+</div>
+</section>
+
+
+<section class="controls">
+<button id="feedBtn" class="btn">Feed 🍖</button>
+<button id="playBtn" class="btn">Play 🎾</button>
+<button id="sleepBtn" class="btn">Sleep 😴</button>
+<button id="resetBtn" class="btn ghost">Reset ↺</button>
+</section>
+
+
+<section class="log">
+<h3>Activity Log</h3>
+<ul id="logList"></ul>
+</section>
+
+
+<footer>
+<small>Made for Web Dev assignment • Uses HTML, CSS, JavaScript</small>
+</footer>
+</main>
+
+
+<script src="script.js"></script>
+</body>
+</html>
