@@ -29,8 +29,8 @@ function clamp(n, a = 0, b = 100) {
 }
 
 function updateUI() {
-  const hungerFill = 100 - pet.hunger;
-  hungerBar.style.width = hungerFill + "%";
+ 
+  hungerBar.style.width = pet.hunger + "%";
   happyBar.style.width = pet.happiness + "%";
   energyBar.style.width = pet.energy + "%";
 
@@ -38,7 +38,6 @@ function updateUI() {
   happyVal.textContent = Math.round(pet.happiness);
   energyVal.textContent = Math.round(pet.energy);
 
-  
   petEl.classList.remove("happy", "sad", "sleeping", "idle");
 
   if (!pet.awake) {
@@ -103,6 +102,12 @@ function sleep() {
   }
 
   pet.awake = false;
+
+  // Disable controls while sleeping
+  feedBtn.disabled = true;
+  playBtn.disabled = true;
+  sleepBtn.disabled = true;
+
   updateUI();
   log("Pet went to sleep.");
 
@@ -110,6 +115,11 @@ function sleep() {
     pet.awake = true;
     pet.energy = clamp(pet.energy + 40);
     pet.hunger = clamp(pet.hunger + 8);
+
+    // Re-enable controls
+    feedBtn.disabled = false;
+    playBtn.disabled = false;
+    sleepBtn.disabled = false;
 
     updateUI();
     log("Pet woke up well rested.");
@@ -122,10 +132,15 @@ function reset() {
   pet.energy = 60;
   pet.awake = true;
 
+  logList.innerHTML = "";
+
+  feedBtn.disabled = false;
+  playBtn.disabled = false;
+  sleepBtn.disabled = false;
+
   updateUI();
   log("State reset.");
 }
-
 
 function tick() {
   pet.hunger = clamp(pet.hunger + 3);
@@ -142,16 +157,13 @@ function tick() {
     pet.happiness = clamp(pet.happiness - 3);
   }
 
-  if (pet.happiness < 20 && Math.random() < 0.2) {
-    pet.happiness = clamp(pet.happiness + 1);
-  }
-
   if (pet.hunger >= 100) {
     log("Pet is starving!");
   }
 
   if (pet.energy <= 0) {
     pet.awake = false;
+    pet.energy = 10; // prevent permanent stuck state
     log("Pet collapsed from exhaustion!");
   }
 
@@ -168,7 +180,6 @@ feedBtn.addEventListener("click", feed);
 playBtn.addEventListener("click", play);
 sleepBtn.addEventListener("click", sleep);
 resetBtn.addEventListener("click", reset);
-
 
 start();
 
