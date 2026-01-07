@@ -29,7 +29,6 @@ function clamp(n, a = 0, b = 100) {
 }
 
 function updateUI() {
- 
   hungerBar.style.width = pet.hunger + "%";
   happyBar.style.width = pet.happiness + "%";
   energyBar.style.width = pet.energy + "%";
@@ -73,7 +72,7 @@ function feed() {
   pet.energy = clamp(pet.energy + 3);
 
   updateUI();
-  log("Fed the pet.");
+  log("Fed the pet 🍖");
 }
 
 function play() {
@@ -92,37 +91,34 @@ function play() {
   pet.energy = clamp(pet.energy - 18);
 
   updateUI();
-  log("Played with pet — lots of fun!");
+  log("Played with pet 🎾");
 }
 
 function sleep() {
   if (!pet.awake) {
-    log("Pet is already sleeping.");
+    log("Pet is already sleeping 😴");
     return;
   }
 
   pet.awake = false;
-
-  // Disable controls while sleeping
   feedBtn.disabled = true;
   playBtn.disabled = true;
   sleepBtn.disabled = true;
 
   updateUI();
-  log("Pet went to sleep.");
+  log("Pet went to sleep 😴");
 
   setTimeout(() => {
     pet.awake = true;
     pet.energy = clamp(pet.energy + 40);
     pet.hunger = clamp(pet.hunger + 8);
 
-    // Re-enable controls
     feedBtn.disabled = false;
     playBtn.disabled = false;
     sleepBtn.disabled = false;
 
     updateUI();
-    log("Pet woke up well rested.");
+    log("Pet woke up well rested 🌞");
   }, 7000);
 }
 
@@ -139,32 +135,22 @@ function reset() {
   sleepBtn.disabled = false;
 
   updateUI();
-  log("State reset.");
+  log("State reset ↺");
 }
 
 function tick() {
   pet.hunger = clamp(pet.hunger + 3);
 
-  if (pet.awake) {
-    pet.energy = clamp(pet.energy - 2);
-  }
+  if (pet.awake) pet.energy = clamp(pet.energy - 2);
 
-  if (pet.hunger > 80) {
-    pet.happiness = clamp(pet.happiness - 4);
-  }
+  if (pet.hunger > 80) pet.happiness = clamp(pet.happiness - 4);
+  if (pet.energy < 20) pet.happiness = clamp(pet.happiness - 3);
 
-  if (pet.energy < 20) {
-    pet.happiness = clamp(pet.happiness - 3);
-  }
-
-  if (pet.hunger >= 100) {
-    log("Pet is starving!");
-  }
-
+  if (pet.hunger >= 100) log("Pet is starving! ⚠️");
   if (pet.energy <= 0) {
     pet.awake = false;
-    pet.energy = 10; // prevent permanent stuck state
-    log("Pet collapsed from exhaustion!");
+    pet.energy = 10;
+    log("Pet collapsed from exhaustion! ⚠️");
   }
 
   updateUI();
@@ -182,5 +168,4 @@ sleepBtn.addEventListener("click", sleep);
 resetBtn.addEventListener("click", reset);
 
 start();
-
 window._pet = pet;
